@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JMC Distributions - Tienda Online</title>
+  <style>
+    :root {
+      --negro: #000;
+      --azul-cielo: #87CEEB;
+      --gris: #888;
+      --fondo: #f4f4f4;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--fondo);
+      color: #333;
+    }
+
+    header {
+      background-color: var(--negro);
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    header img {
+      max-height: 80px;
+      margin-bottom: 10px;
+    }
+
+    nav {
+      background-color: var(--azul-cielo);
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 12px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .producto {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .producto img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .btn-comprar {
+      margin-top: 10px;
+      background-color: var(--negro);
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #carrito {
+      padding: 20px;
+      background: white;
+      margin: 20px;
+      border-radius: 10px;
+    }
+
+    footer {
+      background-color: var(--gris);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    .redes {
+      margin-top: 10px;
+    }
+
+    .redes a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .btn-pago {
+      background: var(--azul-cielo);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://chat.openai.com/cdn-cgi/imagedelivery/X4vEX6GzwV3JwME4abPz3A/3547c347-f3e9-4eb2-8f37-80b3f0194a38/public" alt="Logo JMC Distributions" />
+    <h1>JMC Distributions</h1>
+    <p>Relojes para todos los estilos y ocasiones</p>
+  </header>
+
+  <nav>
+    <a href="#productos">Productos</a>
+    <a href="#carrito">Carrito</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <section class="productos" id="productos">
+    <div class="producto">
+      <img src="https://via.placeholder.com/300x200?text=Reloj+Digital" alt="Reloj Digital" />
+      <h3>Reloj Digital</h3>
+      <p>$89.000</p>
+      <button class="btn-comprar" onclick="agregarCarrito('Reloj Digital', 89000)">Agregar al carrito</button>
+    </div>
+    <div class="producto">
+      <img src="https://via.placeholder.com/300x200?text=Smartwatch" alt="Smartwatch" />
+      <h3>Smartwatch Bluetooth</h3>
+      <p>$120.000</p>
+      <button class="btn-comprar" onclick="agregarCarrito('Smartwatch Bluetooth', 120000)">Agregar al carrito</button>
+    </div>
+    <div class="producto">
+      <img src="https://via.placeholder.com/300x200?text=Reloj+Clásico" alt="Reloj Clásico" />
+      <h3>Reloj Clásico</h3>
+      <p>$99.000</p>
+      <button class="btn-comprar" onclick="agregarCarrito('Reloj Clásico', 99000)">Agregar al carrito</button>
+    </div>
+  </section>
+
+  <section id="carrito">
+    <h2>🛒 Tu carrito</h2>
+    <ul id="lista-carrito"></ul>
+    <p id="total">Total: $0</p>
+    <button class="btn-pago" onclick="finalizarCompra()">Pagar con PSE o Mercado Pago</button>
+  </section>
+
+  <footer id="contacto">
+    <p>¿Tienes dudas o quieres comprar?</p>
+    <div class="redes">
+      <a href="https://wa.me/573001234567" target="_blank">WhatsApp</a>
+      <a href="https://instagram.com/jmcdistributions" target="_blank">Instagram</a>
+      <a href="https://facebook.com/jmcdistributions" target="_blank">Facebook</a>
+    </div>
+    <p>&copy; 2025 JMC Distributions</p>
+  </footer>
+
+  <script>
+    let carrito = [];
+    let total = 0;
+
+    function agregarCarrito(producto, precio) {
+      carrito.push({ producto, precio });
+      total += precio;
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const lista = document.getElementById("lista-carrito");
+      const totalSpan = document.getElementById("total");
+      lista.innerHTML = "";
+      carrito.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.producto} - $${item.precio.toLocaleString()}`;
+        lista.appendChild(li);
+      });
+      totalSpan.textContent = `Total: $${total.toLocaleString()}`;
+    }
+
+    function finalizarCompra() {
+      const urlPago = "https://www.mercadopago.com.co/pagar"; // Cambia por tu URL real de pago
+      alert("Serás redirigido al pago por PSE o Mercado Pago");
+      window.open(urlPago, "_blank");
+    }
+  </script>
+
+</body>
+</html>
